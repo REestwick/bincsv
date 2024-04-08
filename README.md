@@ -12,7 +12,7 @@ python3 -m bincsv <path-to-binary-file> <path-to-output-file.csv>
 ```
 
 
-An example csv and configuration file is provided to create a CycloneDX SBOM using [csv2cdx](), by running:
+An example csv and configuration file is provided to create a CycloneDX SBOM using [csv2cdx](https://github.com/cybeats/csv2cdx), by running:
 
 ```bash
 cd example

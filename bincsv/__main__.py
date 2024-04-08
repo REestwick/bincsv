@@ -13,7 +13,12 @@ def get_deps(dep):
             if '_' in val:
                 val = val.split('_')
                 if val[1][-1].isdigit() and val[1][0].isdigit():
-                    comp = {'name': val[0], 'version':val[1]}
+                    name = val[0].lower()
+                    version = val[1].lower()
+                    comp = {
+                            'name': name, 
+                            'version':version
+                            }
                     dependencies.append(comp)
             check+=1
         else:
@@ -37,10 +42,9 @@ def main(file, outfile):
         for obj, val in  shared_obj.items():
             if ".so" in obj:
                 components_list += get_deps(val._versions)
-        print(components_list)
         df = pd.DataFrame(components_list)
         df.drop_duplicates(inplace=True)
-        df.to_csv(f"example/{outfile}", header=True, index=False)
+        df.to_csv(f"{outfile}", header=True, index=False)
 
                 
 

@@ -27,7 +27,7 @@ def get_deps(dep):
         
 
 #main 
-def main(file, outfile):
+def main(file=sys.argv[1], outfile=sys.argv[2]):
     if not os.path.isfile(file):
         print("error: not a file") 
         exit(1)

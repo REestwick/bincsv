@@ -1,22 +1,23 @@
 # BinCSV
 
-BinCSV is a command line tool to create CSVs from binary files. Current support is Linux ELFs.
+BinCSV is a command line tool to create an SBOM from binary files. Current support is Linux ELFs, and the binary must be a dynamic executable.
+
+
+## Installation
+
+* git clone this project 
+* Run:
+    ```bash
+    cd bincsv
+    pip install -e .
+    ```
 
 
 ## Usage
 
-To create a csv, run:
+To create an sbom, run:
 
 ```bash
-python3 -m bincsv <path-to-binary-file> <path-to-output-file.csv>
+python3 -m bincsv <path-to-binary-file>  <optional-binary-version>
 ```
-
-
-An example csv and configuration file is provided to create a CycloneDX SBOM using [csv2cdx](https://github.com/cybeats/csv2cdx), by running:
-
-```bash
-cd example
-
-csv2cdx -pn <sbom-name> -pv <sbom-version> -t application -c config_template.json -f <input-csv> -pt generic -ap True
-```
-
+You will get a CycloneDX formatted JSON file with the name ```your-binary-name_sbom.json```.

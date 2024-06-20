@@ -2,6 +2,8 @@ import angr
 import pandas as pd
 import sys
 import os
+import csv2cdx.build
+from pathlib import Path
 
 #get binary name dependencies
 def get_deps(dep):
@@ -27,7 +29,7 @@ def get_deps(dep):
         
 
 #main 
-def main(file=sys.argv[1], outfile=sys.argv[2]):
+def main(file=sys.argv[1]):
     if not os.path.isfile(file):
         print("error: not a file") 
         exit(1)
@@ -43,11 +45,26 @@ def main(file=sys.argv[1], outfile=sys.argv[2]):
             if ".so" in obj:
                 components_list += get_deps(val._versions)
         df = pd.DataFrame(components_list)
-        df.drop_duplicates(inplace=True)
-        df.to_csv(f"{outfile}", header=True, index=False)
-
-                
+        df.drop_duplicates(inplace=True, ignore_index=True)
+        arg_data = {
+                    "file": proj.filename.strip(),
+                    "sbom_type": "application", 
+                    "sbom_name": proj.filename.split("/")[-1], 
+                    "sbom_version": sys.argv[2] if len(sys.argv) > 2 else "1.0.0", 
+                    "package_type": "generic",
+                    "add_purl": True
+                }
+        
+        config_data = {
+                        "api_url": None,
+                        "component_configuration": {
+                        "name": "name",
+                        "version": "version"}
+                        }
+        
+        build = csv2cdx.build.Builder(arg_data=arg_data, csv_data=df, json_data=config_data)
+        build.build_sbom()
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1])

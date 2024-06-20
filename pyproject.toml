@@ -9,6 +9,7 @@ readme = "README.md"
 python = ">=3.8.6,<3.11"
 pandas = "^2.0.2"
 angr = "^9.2.97"
+csv2cdx = {git = "https://github.com/cybeats/csv2cdx.git"}
 
 [build-system]
 requires = ["poetry-core"]
